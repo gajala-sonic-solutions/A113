@@ -7,43 +7,29 @@
 <title>Video Library</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
     background:#111;
     color:white;
     font-family:Arial,sans-serif;
+    margin:0;
     padding:30px;
-}
-
-h1{
-    margin-bottom:25px;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:30px;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:25px;
 }
 
 .card{
-    background:#1d1d1d;
-    border-radius:12px;
+    background:#1f1f1f;
     padding:15px;
+    border-radius:10px;
 }
 
 video{
     width:100%;
-    border-radius:10px;
-    background:black;
-}
-
-h3{
-    margin-top:12px;
+    border-radius:8px;
 }
 </style>
 
@@ -52,30 +38,41 @@ h3{
 
 <h1>Video Library</h1>
 
-<div class="grid">
+<div class="grid" id="videos"></div>
 
+<script>
+
+const USER="gajala-sonic-solutions";
+const REPO="A113";
+const TAG="pixar";
+
+const BASE=`https://github.com/${USER}/${REPO}/releases/download/${TAG}/`;
+
+fetch("videos.json")
+.then(r=>r.json())
+.then(videos=>{
+
+const container=document.getElementById("videos");
+
+videos.forEach(video=>{
+
+container.innerHTML+=`
 <div class="card">
-<video controls preload="metadata">
-<source src="https://github.com/USERNAME/REPO/releases/download/TAG/movie1.mp4" type="video/mp4">
-</video>
-<h3>Movie 1</h3>
-</div>
 
-<div class="card">
 <video controls preload="metadata">
-<source src="https://github.com/USERNAME/REPO/releases/download/TAG/movie2.mp4" type="video/mp4">
+<source src="${BASE}${video.file}" type="video/mp4">
 </video>
-<h3>Movie 2</h3>
-</div>
 
-<div class="card">
-<video controls preload="metadata">
-<source src="https://github.com/USERNAME/REPO/releases/download/TAG/movie3.mp4" type="video/mp4">
-</video>
-<h3>Movie 3</h3>
-</div>
+<h3>${video.title}</h3>
 
 </div>
+`;
+
+});
+
+});
+
+</script>
 
 </body>
 </html>
